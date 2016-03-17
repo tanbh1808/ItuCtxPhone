@@ -8,7 +8,7 @@ import android.hardware.SensorEvent;
  */
 public class PressureMonitor extends ContextMonitor {
 
-    float value; // Atmospheric pressure in hPa (millibar)
+    float value; // atmospheric pressure in hPa (millibar)
 
     public PressureMonitor(){
         setId();
@@ -16,15 +16,10 @@ public class PressureMonitor extends ContextMonitor {
 
     public PressureMonitor(Sensor sensor){
         setId();
-        if (sensor.getType() == Sensor.TYPE_PRESSURE)
+        if (sensor.getType() == Sensor.TYPE_PRESSURE) {
             setSensor(sensor);
-    }
-
-    public PressureMonitor(Sensor sensor, String type){
-        setId();
-        setType(type);
-        if (sensor.getType() == Sensor.TYPE_PRESSURE)
-            setSensor(sensor);
+            setType("Pressure");
+        }
     }
 
     @Override

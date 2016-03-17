@@ -1,0 +1,9 @@
+
+
+Microphone
+probably using MediaRecorder ? I don't want to record anything though
+follow which approach? research
+maybe AudioRecord, it allows to store raw data in a buffer without saving to a file
+
+Location?
+probably to do in the map part
