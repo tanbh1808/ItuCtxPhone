@@ -28,6 +28,8 @@ public class ContextService extends Service {
         Sensor pressSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
         Sensor tempSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
 
+        getBaseContext().getCacheDir();
+
         if (pressSensor != null) {
             pressMonitor = new PressureMonitor(pressSensor);
         } else {
