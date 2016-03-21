@@ -16,6 +16,9 @@
             </intent-filter>
         </activity>
 
+        <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+
         <service
             android:name=".ContextService"
             android:enabled="true"

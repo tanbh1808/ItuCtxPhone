@@ -26,7 +26,6 @@ public class SoundMonitor {
         start();
         sample = getAmplitude();
         stop();
-
         return sample;
     }
 
@@ -41,7 +40,7 @@ public class SoundMonitor {
         }catch (IOException exn){
             failCount++;
             if (failCount<5){
-
+                start();
             }
             Log.i("Sound Monitor" ,"failed to prepare audio recorder");
         }

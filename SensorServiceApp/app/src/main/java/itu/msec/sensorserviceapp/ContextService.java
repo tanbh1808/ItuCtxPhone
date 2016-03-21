@@ -8,6 +8,9 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by martinosecchi on 17/03/16.
  */
@@ -16,8 +19,10 @@ public class ContextService extends Service {
     private SensorManager mSensorManager;
     private TemperatureMonitor tempMonitor;
     private PressureMonitor pressMonitor;
+    private SoundMonitor soundMonitor;
     private Thread tempThread;
     private Thread pressThread;
+    private Thread soundThread;
 
     public ContextService(){}
 
@@ -52,7 +57,6 @@ public class ContextService extends Service {
                 int i = 0; //for testing
                 while (i<10){
                     Log.i("Context Service" , tempMonitor.toString());
-                    System.out.println(tempMonitor.toString());
                     try {
                         Thread.sleep(5000);
                     } catch( InterruptedException exn){}
@@ -67,7 +71,6 @@ public class ContextService extends Service {
                 int i = 0; //for testing
                 while (i<10){
                     Log.i("Context Service" , pressMonitor.toString());
-                    System.out.println(pressMonitor.toString());
                     try {
                         Thread.sleep(5000);
                     } catch( InterruptedException exn){}
@@ -76,8 +79,25 @@ public class ContextService extends Service {
             }
         });
 
+        soundMonitor = new SoundMonitor(getCacheDir());
+
+        soundThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List samples = new ArrayList();
+                for (int i = 0; i< 10; i++){
+                    samples.add(soundMonitor.getSound());
+                    Log.i( "SOUND", "" + samples.get(i) );
+                    try{
+                        Thread.sleep(500);
+                    } catch (InterruptedException exn){}
+                }
+            }
+        });
+
         tempThread.start();
         pressThread.start();
+        soundThread.start();
 
         return START_STICKY; //runs until explicitly stopped
     }
