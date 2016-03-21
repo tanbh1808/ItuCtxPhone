@@ -1,0 +1,51 @@
+h1 {
+	font-size: xx-large;
+	font-weight: bolder;
+}
+
+.f1 {
+	font-family: sans-serif;
+	font-variant: normal;	
+}
+
+.stylish {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+	background-color: white;
+	width: 75%;
+    border-radius: 25px;
+    border-style: solid;
+    border-color: red;
+	border-width: 2px;
+}
+
+.pane {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	text-align: center;
+	border-style: solid 2px;
+    border-radius: 25px;
+	background-color: lightblue;
+    padding: 10px; 
+    width: 95%;
+}
+
+.tbl {
+	margin-left:auto;
+	margin-right:auto;
+    border-radius: 5px;
+	width: 95%;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	background-color: white;
+}
+
+.tdHead {
+	margin-top: 10px;
+    border-radius: 25px;
+	text-shadow: black;
+	font-weight: bolder;
+	background-color: lightgreen;
+}

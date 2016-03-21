@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ContextPhone Overview</title>
+    <link rel="stylesheet" type="text/css" href="des/style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="des/tables.js"></script>
+  </head>
+  <body class ="f1">
+  <div class="pane">
+  <h1>ContextPhone API</h1><hr>
+  <div class="stylish">
+  <b>Rest Api:</b><hr>
+  <a href="/r/contexts">/r/contexts</a><br>
+  <a href="/r/beacons">/r/beacons</a>
+  </div>
+  <br>
+  
+  <div class="stylish">
+  <b>You can filter by using following parameter notation appended to above urls on GET requests:</b><hr>
+  '?lat='val'&lng='val'&after='date''</div>
+  <br>
+  <div class="stylish">
+  <b>You should use following JSON object types as payloads on POST requests:</b><hr>
+  
+  <u>Contexts JSON:</u><br>
+  {<b>"type"</b>:"val", <b>"values"</b>:"val", <b>"lat"</b>:"val", <b>"lng"</b>:"val"}<br>
+  <u>Overwrites</u>: add the unique Key labelled <b>"uid"</b> associated with the entity.<br><br>
+  <u>Beacon JSON:</u><br>
+  {<b>"uid"</b>:"val", <b>"major</b>":"val", <b>"minor"</b>:"val", <b>"lat"</b>:"val", <b>"lng"</b>:"val"}<br>
+  <u>Overwrites</u>: add the unique Key labelled <b>"key"</b> associated with the entity.</div>
+  <br>
+  
+  <div class="stylish">
+  <b>Delete is supported by using the entities primary key as a parameter:</b><hr>
+  'uid' for contexts<br>
+  'key' for beacons
+  </div>
+  
+  </div>
+  	<div class="pane" >
+  	<b>Contexts:</b><hr>
+    <table id="ctxTbl" class="tbl">
+    <tr id="hdRow" class="tdHead">
+    		<td>Updated</td>
+	    	<td>Latitude</td>
+    	    <td>Longitude</td>
+            <td>Sensor Type</td>
+            <td>values</td>
+    </tr>
+    </table>
+  	</div>
+
+  	<div class="pane" >
+	  	<b>Beacons:</b><hr>
+    <table id="beacTbl" class="tbl">
+    <tr id="hdRow" class="tdHead">
+	    	<td>Updated</td>
+    	    <td>Latitude</td>
+    	    <td>Longitude</td>
+            <td>Uid</td>
+            <td>Major</td>
+            <td>Minor</td>
+    </tr>
+    </table>
+  	</div>
+    
+      <script>
+$(document).ready(function() {
+	var ctbl = document.getElementById('ctxTbl');
+	var btbl = document.getElementById('beacTbl');
+  	$.getJSON('/r/contexts', function(data) {
+			populateCtxtable(ctbl, data);
+  	});
+  	
+  	$.getJSON('/r/beacons', function(data) {
+		populateBeacontable(btbl, data);
+	});
+});
+    </script>
+  
+  </body>
+</html>
