@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.Result;
 
+import servlet.entities.BeaconEntity;
 import servlet.entities.ContextEntity;
 
 public class CtxServlet extends HttpServlet {
@@ -119,8 +122,9 @@ public class CtxServlet extends HttpServlet {
 		//new key or no key
 		if ( res == null ) {
 			ce.touch();
-			ofy().save().entity(ce);
+			com.googlecode.objectify.Key<ContextEntity> k = ofy().save().entity(ce).now();
 			dirty = true;
+			gson.toJson( (ContextEntity)ofy().load().key(k).now(), resp.getWriter());
 		}
 		//existing entity - merge
 		else {
@@ -130,8 +134,9 @@ public class CtxServlet extends HttpServlet {
 			res.type = ce.type;
 			res.touch();
 			
-			ofy().save().entity(res);
+			com.googlecode.objectify.Key<ContextEntity> k = ofy().save().entity(res).now();
 			dirty = true;
+			gson.toJson( (ContextEntity)ofy().load().key(k).now(), resp.getWriter());
 		}
 	}
 

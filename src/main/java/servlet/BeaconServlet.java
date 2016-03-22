@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.googlecode.objectify.Result;
 
 import servlet.entities.BeaconEntity;
 import servlet.entities.ContextEntity;
@@ -80,30 +82,28 @@ public class BeaconServlet extends HttpServlet {
 				).readLine();
 
 		BeaconEntity be = gson.fromJson(rawJson, BeaconEntity.class);
-
+		String key = BeaconEntity.GenKey(be.uid, be.major, be.minor);
 
 		//lookup tables by id
-		BeaconEntity res = ofy().load().type(BeaconEntity.class).id(be.key).now();
+		BeaconEntity res = ofy().load().type(BeaconEntity.class).id(key).now();
 
 		//new key or no key
 		if ( res == null ) {
 			be.touch();
 			be.key = BeaconEntity.GenKey(be.uid, be.major, be.minor);
-			ofy().save().entity(be);
+			com.googlecode.objectify.Key<BeaconEntity> k = ofy().save().entity(be).now();
 			dirty = true;
+			gson.toJson( (BeaconEntity)ofy().load().key(k).now() , resp.getWriter());
 		}
 		//existing entity - merge
 		else {
-//			res.uid = be.uid;
-//			res.major = be.major;
-//			res.minor = be.minor;
-// Key is made up by above identifiers - would not make sense to update those without updating the key
 			res.lat = be.lat;
 			res.lng = be.lng;
 			res.touch();
 
-			ofy().save().entity(res);
+			com.googlecode.objectify.Key<BeaconEntity> k = ofy().save().entity(res).now();
 			dirty = true;
+			gson.toJson( (BeaconEntity)ofy().load().key(k).now(), resp.getWriter());
 		}
 	}
 
