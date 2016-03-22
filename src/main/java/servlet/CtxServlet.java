@@ -1,5 +1,7 @@
 package servlet;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,9 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.appengine.repackaged.com.google.gson.Gson;
-import com.google.appengine.repackaged.org.apache.http.auth.ContextAwareAuthScheme;
-import com.googlecode.objectify.Objectify;
-import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.googlecode.objectify.ObjectifyService;
 
 import servlet.entities.ContextEntity;
@@ -111,9 +110,11 @@ public class CtxServlet extends HttpServlet {
 
 		//create entity from JSON
 		ContextEntity ce = gson.fromJson(rawJson, ContextEntity.class);
+		ContextEntity res = null;
 		
 		//lookup tables by id
-		ContextEntity res = ofy().load().type(ContextEntity.class).id(ce.uid).now();
+		if(ce.uid != null)
+		res = ofy().load().type(ContextEntity.class).id(ce.uid).now();
 		
 		//new key or no key
 		if ( res == null ) {

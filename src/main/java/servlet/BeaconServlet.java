@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.appengine.repackaged.com.google.gson.Gson;
-import com.googlecode.objectify.ObjectifyService;
 
 import servlet.entities.BeaconEntity;
 import servlet.entities.ContextEntity;
