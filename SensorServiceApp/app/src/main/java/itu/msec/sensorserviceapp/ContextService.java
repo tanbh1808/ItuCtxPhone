@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -33,8 +34,6 @@ public class ContextService extends Service {
         Sensor pressSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
         Sensor tempSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
 
-        getBaseContext().getCacheDir();
-
         if (pressSensor != null) {
             pressMonitor = new PressureMonitor(pressSensor);
         } else {
@@ -56,7 +55,7 @@ public class ContextService extends Service {
             public void run() {
                 int i = 0; //for testing
                 while (i<10){
-                    Log.i("Context Service" , tempMonitor.toString());
+                    Log.i("ContextService - TEMP" , tempMonitor.toString());
                     try {
                         Thread.sleep(5000);
                     } catch( InterruptedException exn){}
@@ -70,7 +69,7 @@ public class ContextService extends Service {
             public void run() {
                 int i = 0; //for testing
                 while (i<10){
-                    Log.i("Context Service" , pressMonitor.toString());
+                    Log.i("ContextService - PRESS" , pressMonitor.toString());
                     try {
                         Thread.sleep(5000);
                     } catch( InterruptedException exn){}
@@ -79,7 +78,7 @@ public class ContextService extends Service {
             }
         });
 
-        soundMonitor = new SoundMonitor(getCacheDir());
+        soundMonitor = new SoundMonitor( Environment.getDataDirectory() );
 
         soundThread = new Thread(new Runnable() {
             @Override
@@ -87,7 +86,7 @@ public class ContextService extends Service {
                 List samples = new ArrayList();
                 for (int i = 0; i< 10; i++){
                     samples.add(soundMonitor.getSound());
-                    Log.i( "SOUND", "" + samples.get(i) );
+                    Log.i( "ContextService - SOUND", "" + samples.get(i) );
                     try{
                         Thread.sleep(500);
                     } catch (InterruptedException exn){}

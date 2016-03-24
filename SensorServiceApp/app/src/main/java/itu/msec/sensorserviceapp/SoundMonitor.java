@@ -1,7 +1,5 @@
 package itu.msec.sensorserviceapp;
 
-import android.media.AudioFormat;
-import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.util.Log;
 
@@ -14,17 +12,15 @@ import java.io.IOException;
 public class SoundMonitor {
 
     private MediaRecorder mRecorder = null;
-    private File temp;
-    private int failCount = 0;
+    private String fileName;
 
-    public SoundMonitor(File cacheDir){
-        temp = cacheDir;
+    public SoundMonitor(File directory){
+        fileName = directory.getAbsolutePath() + "/tempaudiorec.3gp";
     }
 
     public double getSound(){
-        double sample = 0;
         start();
-        sample = getAmplitude();
+        double sample = getAmplitude();
         stop();
         return sample;
     }
@@ -32,19 +28,14 @@ public class SoundMonitor {
     private void start(){
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-        mRecorder.setOutputFile(temp.getAbsolutePath());
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(fileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         try {
             mRecorder.prepare();
         }catch (IOException exn){
-            failCount++;
-            if (failCount<5){
-                start();
-            }
             Log.i("Sound Monitor" ,"failed to prepare audio recorder");
         }
-        failCount=0;
         mRecorder.start();
     }
 
@@ -53,7 +44,9 @@ public class SoundMonitor {
             mRecorder.stop();
             mRecorder.release();
             mRecorder = null;
-            temp.delete();
+            File file = new File(fileName);
+            boolean deleted = file.delete();
+            Log.i("Sound Monitor", "file is deleted: " + deleted);
         }
     }
 

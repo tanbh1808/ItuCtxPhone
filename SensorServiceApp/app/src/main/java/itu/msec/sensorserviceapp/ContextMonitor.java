@@ -6,6 +6,8 @@ import android.hardware.SensorEventListener;
 /**
  * Created by martinosecchi on 17/03/16.
  */
+
+// NB the motorola only has accelerometer and proximity sensors
 public abstract class ContextMonitor implements SensorEventListener{
     private static int COUNT = 0;
     private int id;
