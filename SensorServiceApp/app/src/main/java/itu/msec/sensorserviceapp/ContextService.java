@@ -56,7 +56,7 @@ public class ContextService extends Service {
                 while (i<10){
                     Log.i("ContextService - TEMP" , tempMonitor.toString());
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(1000);
                     } catch( InterruptedException exn){}
                     i++;
                 }
@@ -70,7 +70,7 @@ public class ContextService extends Service {
                 while (i<10){
                     Log.i("ContextService - PRESS" , pressMonitor.toString());
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(1000);
                     } catch( InterruptedException exn){}
                     i++;
                 }

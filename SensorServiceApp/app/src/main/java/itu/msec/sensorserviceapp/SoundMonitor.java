@@ -20,12 +20,13 @@ public class SoundMonitor {
 
     public double getSound(){
         start();
+        mRecorder.getMaxAmplitude(); //first call on the recorder returns 0
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        double sample = getAmplitude();
+        double sample = mRecorder.getMaxAmplitude(); //second call returns max in the period since last call
         stop();
         return sample;
     }
@@ -58,12 +59,5 @@ public class SoundMonitor {
     private void restart(){
         stop();
         start();
-    }
-
-    private double getAmplitude() {
-        if (mRecorder != null)
-            return mRecorder.getMaxAmplitude();
-        else
-            return -1;
     }
 }
