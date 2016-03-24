@@ -20,6 +20,11 @@ public class SoundMonitor {
 
     public double getSound(){
         start();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         double sample = getAmplitude();
         stop();
         return sample;
@@ -59,6 +64,6 @@ public class SoundMonitor {
         if (mRecorder != null)
             return mRecorder.getMaxAmplitude();
         else
-            return 0;
+            return -1;
     }
 }

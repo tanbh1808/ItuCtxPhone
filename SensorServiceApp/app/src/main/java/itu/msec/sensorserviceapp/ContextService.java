@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -78,7 +77,7 @@ public class ContextService extends Service {
             }
         });
 
-        soundMonitor = new SoundMonitor( Environment.getDataDirectory() );
+        soundMonitor = new SoundMonitor( getFilesDir() );
 
         soundThread = new Thread(new Runnable() {
             @Override
